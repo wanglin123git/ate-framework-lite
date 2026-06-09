@@ -1,0 +1,19 @@
+# Example test plan (configuration profile).
+# Add/reorder a measurement by editing rows here -- no recompilation needed.
+Group,TestName,Quantity,FreqGhz,Min,Max,Unit
+RX,Gain@1.0,gain,1.0,19.0,21.5,dB
+RX,Gain@2.4,gain,2.4,19.0,21.5,dB
+RX,Gain@5.8,gain,5.8,19.0,21.5,dB
+RX,Gain@3.5,gain,3.5,19.0,21.5,dB
+RX,NF@1.0,nf,1.0,0.0,2.5,dB
+RX,NF@2.4,nf,2.4,0.0,2.5,dB
+RX,NF@5.8,nf,5.8,0.0,2.5,dB
+RX,NF@3.5,nf,3.5,0.0,2.5,dB
+RX,P1@1.0,p1,1.0,-6.0,0.0,dBm
+RX,P1@2.4,p1,2.4,-6.0,0.0,dBm
+RX,P1@5.8,p1,5.8,-6.0,0.0,dBm
+RX,P1@3.5,p1,3.5,-6.0,0.0,dBm
+RX,Psat@1.0,psat,1.0,18.0,21.0,dBm
+RX,Psat@2.4,psat,2.4,18.0,21.0,dBm
+RX,Psat@5.8,psat,5.8,18.0,21.0,dBm
+RX,Psat@3.5,psat,3.5,18.0,21.0,dBm
