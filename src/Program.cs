@@ -14,7 +14,8 @@ public static class Program
 {
     public static int Main(string[] args)
     {
-        string profile = args.Length > 0 ? args[0] : "profiles/lna_plan.csv";
+        bool bench = args.Contains("--bench");
+        string profile = args.FirstOrDefault(a => !a.StartsWith("--")) ?? "profiles/lna_plan.csv";
         if (!File.Exists(profile))
         {
             Console.Error.WriteLine($"Profile not found: {profile}");
@@ -22,6 +23,13 @@ public static class Program
         }
 
         var plan = CsvProfile.Load(profile);
+
+        if (bench)
+        {
+            Benchmark.Print(Benchmark.Run(plan));
+            return 0;
+        }
+
         var engine = new TestEngine();
 
         // One shared synthetic DUT (noiseless for reproducible demo output).

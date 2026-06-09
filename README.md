@@ -1,5 +1,9 @@
 # ate-framework-lite
 
+[![CI](https://github.com/<your-username>/ate-framework-lite/actions/workflows/ci.yml/badge.svg)](https://github.com/<your-username>/ate-framework-lite/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+![.NET](https://img.shields.io/badge/.NET-8.0-512BD4)
+
 A lightweight, **vendor-agnostic** automation framework for RF/microwave device
 characterization. Test logic is written once against a single driver contract
 and runs unchanged across instruments that speak **different command dialects**
@@ -35,6 +39,20 @@ scripts\run.ps1         # Windows PowerShell
 The program runs the same plan against both dialects, writes a CSV report per
 instrument, and asserts that the results are identical across dialects.
 
+## Tests & CI
+```bash
+dotnet test                  # 11 unit tests: model, cross-dialect, limits, CSV
+```
+Every push/PR runs build + tests on GitHub Actions (`.github/workflows/ci.yml`).
+
+## Operator-effort benchmark
+```bash
+dotnet run -- --bench
+```
+Reports the engine run time and the operator actions / transcription steps a
+manual workflow needs versus the framework (for the example 16-step plan:
+48 actions and 16 transcriptions manually vs. 1 action and 0 transcriptions).
+
 ## Synthetic DUT model
 With frequency `f` in GHz:
 ```
@@ -52,9 +70,12 @@ src/
   Dut/SyntheticLna.cs          # reproducible DUT model
   Instruments/                 # simulated legacy + SCPI instruments
   Engine/                      # AutoTestItem, TestEngine, CsvProfile
+  Benchmark.cs                 # operator-effort micro-benchmark
   Program.cs                   # demo runner
+tests/                         # xUnit test project (11 tests)
 profiles/lna_plan.csv          # example configuration
 scripts/                       # one-click reproduce
+.github/workflows/ci.yml       # build + test on every push/PR
 ```
 
 ## License
