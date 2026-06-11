@@ -16,4 +16,13 @@
     <Compile Remove="tests/**/*.cs" />
   </ItemGroup>
 
+  <!-- Ship the example profile next to the executable so a published demo.exe
+       finds it when run from any directory (see Program.ResolveProfile). -->
+  <ItemGroup>
+    <Content Include="profiles/lna_plan.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>profiles/lna_plan.csv</Link>
+    </Content>
+  </ItemGroup>
+
 </Project>

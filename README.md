@@ -1,5 +1,7 @@
 # ate-framework-lite
 
+**English** | [简体中文](README.zh-CN.md)
+
 [![CI](https://github.com/wanglin123git/ate-framework-lite/actions/workflows/ci.yml/badge.svg)](https://github.com/wanglin123git/ate-framework-lite/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 ![.NET](https://img.shields.io/badge/.NET-8.0-512BD4)
@@ -28,16 +30,30 @@ results with no hardware and no proprietary data.
   wideband low-noise amplifier (gain, NF, input P-1, saturated power).
 
 ## Run
+
+**Quickest (Windows):** double-click **`demo.cmd`** in the repo root. It builds and
+runs the demo, then keeps the window open so you can read the results.
+
+**Standalone demo.exe (no .NET runtime needed):**
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\build-demo.ps1
+```
+This publishes a self-contained **`dist\demo.exe`** that you can copy anywhere and
+double-click. The example profile is shipped next to it, so it runs from any folder.
+
+**From the .NET SDK directly:**
 ```bash
 dotnet run -- profiles/lna_plan.csv
 ```
-or use the one-click scripts:
+or the one-click scripts:
 ```bash
 ./scripts/run.sh        # Linux/macOS
 scripts\run.ps1         # Windows PowerShell
 ```
-The program runs the same plan against both dialects, writes a CSV report per
-instrument, and asserts that the results are identical across dialects.
+
+In all cases the program runs the same plan against both dialects, writes a CSV
+report per instrument, and asserts that the results are identical across dialects.
+Pass `--no-pause` to skip the keep-open prompt (used by CI and scripts).
 
 ## Tests & CI
 ```bash
@@ -71,10 +87,12 @@ src/
   Instruments/                 # simulated legacy + SCPI instruments
   Engine/                      # AutoTestItem, TestEngine, CsvProfile
   Benchmark.cs                 # operator-effort micro-benchmark
-  Program.cs                   # demo runner
+  Program.cs                   # demo runner (interactive keep-open prompt)
 tests/                         # xUnit test project (11 tests)
 profiles/lna_plan.csv          # example configuration
-scripts/                       # one-click reproduce
+demo.cmd                       # double-click to build + run (Windows)
+scripts/build-demo.ps1         # publish a standalone dist/demo.exe
+scripts/run.sh, run.ps1        # one-click reproduce
 .github/workflows/ci.yml       # build + test on every push/PR
 ```
 

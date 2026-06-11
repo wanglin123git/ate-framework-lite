@@ -27,4 +27,4 @@ jobs:
         run: dotnet test ate-framework-lite.sln --configuration Release --no-build --verbosity normal
 
       - name: Run demo (smoke)
-        run: dotnet run --project AteFramework.Lite.csproj --configuration Release --no-build -- profiles/lna_plan.csv
+        run: dotnet run --project AteFramework.Lite.csproj --configuration Release --no-build -- profiles/lna_plan.csv --no-pause

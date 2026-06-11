@@ -14,11 +14,29 @@ public static class Program
 {
     public static int Main(string[] args)
     {
-        bool bench = args.Contains("--bench");
-        string profile = args.FirstOrDefault(a => !a.StartsWith("--")) ?? "profiles/lna_plan.csv";
-        if (!File.Exists(profile))
+        int code = Run(args);
+
+        // Keep the window open when launched interactively (e.g. double-clicking
+        // demo.exe / demo.cmd), so the results stay visible. Skipped automatically
+        // when input is redirected (CI, pipes) or when --no-pause is passed.
+        if (!Console.IsInputRedirected && !args.Contains("--no-pause"))
         {
-            Console.Error.WriteLine($"Profile not found: {profile}");
+            Console.WriteLine();
+            Console.Write("Demo finished. Press Enter to close...");
+            Console.ReadLine();
+        }
+        return code;
+    }
+
+    private static int Run(string[] args)
+    {
+        bool bench = args.Contains("--bench");
+        string requested = args.FirstOrDefault(a => !a.StartsWith("--")) ?? "profiles/lna_plan.csv";
+        string? profile = ResolveProfile(requested);
+        if (profile is null)
+        {
+            Console.Error.WriteLine($"Profile not found: {requested}");
+            Console.Error.WriteLine("Looked in the current directory and next to the executable.");
             return 1;
         }
 
@@ -77,6 +95,19 @@ public static class Program
         for (int i = 0; i < a.Count; i++)
             if (Math.Abs(a[i].Value - b[i].Value) > 1e-9) return false;
         return true;
+    }
+
+    /// <summary>
+    /// Resolves a profile path: first relative to the current directory, then
+    /// next to the executable (so a published demo.exe works when double-clicked
+    /// from any folder). Returns null if neither exists.
+    /// </summary>
+    private static string? ResolveProfile(string path)
+    {
+        if (File.Exists(path)) return path;
+        string byExe = Path.Combine(AppContext.BaseDirectory, path);
+        if (File.Exists(byExe)) return byExe;
+        return null;
     }
 
     private static string Sanitize(string s)
